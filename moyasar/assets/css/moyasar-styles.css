@@ -1,0 +1,326 @@
+/* Modern UI Styles for Moyasar Payment Forms */
+
+.wc-cedit-card-form {
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+#wc-moyasar-cc-form,
+#wc-moyasar-stc-pay-form {
+    border: 1px solid #e5e5e5;
+    background: #fdfdfd;
+    padding: 25px;
+    /* Increased padding per request */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+#wc-moyasar-cc-form *,
+#wc-moyasar-stc-pay-form * {
+    box-sizing: border-box;
+    /* Ensure padding doesn't break layout */
+}
+
+/* Ensure full width for these rows */
+#wc-moyasar-cc-form .form-row.form-row-wide,
+#wc-moyasar-stc-pay-form .form-row.form-row-wide {
+    width: 100%;
+    margin: 0 0 20px;
+    clear: both;
+}
+
+#wc-moyasar-cc-form label,
+#wc-moyasar-stc-pay-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+    font-size: 14px;
+}
+
+/* Polished Input Styles (using input-text class for specificity) */
+#wc-moyasar-cc-form input.input-text,
+#wc-moyasar-cc-form input[type="text"],
+#wc-moyasar-cc-form input[type="password"],
+#wc-moyasar-stc-pay-form input[type="text"] {
+    width: 100%;
+    padding: 0 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    line-height: 48px;
+    /* Consistent height */
+    height: 48px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+#wc-moyasar-cc-form input.input-text:focus,
+#wc-moyasar-cc-form input[type="text"]:focus,
+#wc-moyasar-cc-form input[type="password"]:focus,
+#wc-moyasar-stc-pay-form input[type="text"]:focus {
+    border-color: #316896;
+    box-shadow: 0 0 0 4px rgba(49, 104, 150, 0.1);
+    outline: none;
+}
+
+/* Credit Card Group */
+#wc-moyasar-cc-form .moyasar-cc-group {
+    position: relative;
+    min-width: 100%;
+}
+
+/* Disable payment fields and option radios while checkout is processing */
+form.checkout.processing input[name="payment_method"],
+form.checkout.processing .payment_box input,
+form.checkout.processing .payment_box select,
+form.checkout.processing .payment_box textarea {
+    pointer-events: none;
+}
+
+form.checkout.processing .woocommerce-checkout-payment li.payment_method_moyasar_cc,
+form.checkout.processing .woocommerce-checkout-payment li.payment_method_moyasar_stc_pay,
+form.checkout.processing .woocommerce-checkout-payment li.payment_method_moyasar_apple_pay,
+form.checkout.processing .woocommerce-checkout-payment li.payment_method_moyasar_samsung_pay {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Payment option disabled state triggered from JS */
+ul.wc_payment_methods.moyasar-payment-processing {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Saved payment method token radio buttons */
+.wc-moyasar_cc-payment-methods .wc-saved-payment-method input[type="radio"],
+.payment_method_moyasar_cc input[name="wc-moyasar_cc-payment-token"] {
+    appearance: auto;
+    -webkit-appearance: radio;
+    width: auto;
+    min-width: auto;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+/* Expiry & CVC Layout */
+.moyasar-cc-expiry-cvc-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.moyasar-cc-expiry-cvc-group .form-row {
+    flex: 1;
+    float: none;
+    /* Override WC float */
+    margin: 0;
+    width: auto;
+}
+
+/* Expiry & CVC Responsive Layout */
+@media (max-width: 480px) {
+    .moyasar-cc-expiry-cvc-group {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .moyasar-cc-expiry-cvc-group .form-row {
+        width: 100% !important;
+    }
+}
+
+/* Save Card Checkbox and Label Alignment */
+#wc-moyasar-cc-form .woocommerce-SavedPaymentMethods-saveNew,
+#wc-moyasar-cc-form .form-row.create-account {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    float: none !important;
+    clear: both !important;
+}
+
+#wc-moyasar-cc-form .woocommerce-SavedPaymentMethods-saveNew label,
+#wc-moyasar-cc-form .form-row.create-account label {
+    display: inline-block !important;
+    margin: 0 !important;
+    font-weight: normal !important;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#wc-moyasar-cc-form .woocommerce-SavedPaymentMethods-saveNew input[type="checkbox"],
+#wc-moyasar-cc-form .form-row.create-account input[type="checkbox"] {
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    cursor: pointer;
+}
+
+/* Icon adjustments */
+#moyasar_card_brand {
+    font-style: normal;
+    font-weight: 100 !important;
+}
+
+/* Quick Buy Button */
+.moyasar-quick-buy-btn {
+    margin-top: 10px;
+    width: 100%;
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none !important;
+    padding: 15px 20px !important;
+    font-size: 16px !important;
+    border-radius: 8px !important;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.moyasar-quick-buy-btn:hover {
+    background-color: #000000 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.moyasar-quick-buy-btn.loading {
+    opacity: 0.8;
+    cursor: not-allowed;
+    background-color: #333 !important;
+    background-image: none !important;
+}
+
+/* RTL Support for Card Form */
+.woocommerce-checkout[dir="rtl"] .moyasar-cc-group .moyasar-cc-logos,
+.woocommerce-cart[dir="rtl"] .moyasar-cc-group .moyasar-cc-logos,
+[dir="rtl"] .moyasar-cc-group .moyasar-cc-logos {
+    right: auto !important;
+    left: 12px !important;
+}
+
+[dir="rtl"] .moyasar-cc-group input {
+    padding-left: 50px !important;
+    /* Space for icon on left */
+    padding-right: 12px !important;
+}
+
+/* Ensure LTR inputs have space on right */
+[dir="ltr"] .moyasar-cc-group input,
+.moyasar-cc-group input:not([dir="rtl"]) {
+    padding-right: 50px !important;
+}
+
+/* Gateway Icons Styling */
+.moyasar-gateway-icon {
+    max-height: 32px !important;
+    vertical-align: middle;
+    /* Default LTR (float right) */
+    float: right;
+    margin-left: 10px;
+}
+
+/* RTL Override */
+[dir="rtl"] .moyasar-gateway-icon,
+.woocommerce[dir="rtl"] .moyasar-gateway-icon {
+    float: left;
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+/* Apple Pay Button Styles */
+apple-pay-button {
+    cursor: pointer;
+    display: inline-block;
+}
+
+/* Card Brand Logo inside Input Field */
+#moyasar_card_brand_img {
+    height: 24px !important;
+    width: auto !important;
+    max-height: 24px !important;
+    max-width: 55px !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+#moyasar_card_brand_placeholder {
+    font-size: 20px !important;
+    line-height: 1 !important;
+    opacity: 0.3 !important;
+}
+
+.moyasar-cc-logos {
+    pointer-events: none !important;
+}
+/* ---------------------------------------------------------------------- */
+/* WooCommerce Blocks checkout                                            */
+/* ---------------------------------------------------------------------- */
+.moyasar-blocks-cc,
+.moyasar-blocks-stc,
+.moyasar-blocks-apple-pay,
+.moyasar-blocks-samsung,
+.moyasar-blocks-invoice {
+    padding-top: 4px;
+}
+
+.moyasar-blocks-desc {
+    margin: 0 0 12px;
+}
+
+.moyasar-blocks-field,
+.moyasar-blocks-field-group {
+    margin-bottom: 12px;
+}
+
+.moyasar-blocks-field label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.9em;
+}
+
+.moyasar-blocks-field-group label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.9em;
+}
+
+/* High-specificity override to force WooCommerce Blocks to respect our dynamic icon heights */
+.wc-block-checkout__payment-method .wc-block-components-radio-control-accordion-option .wc-block-components-radio-control__label .moyasar-blocks-icons img {
+    height: var(--moyasar-icon-height, 26px) !important;
+    max-height: var(--moyasar-icon-height, 26px) !important;
+    width: auto !important;
+}
+
+.moyasar-blocks-icons img {
+    height: var(--moyasar-icon-height, 26px) !important;
+    max-height: var(--moyasar-icon-height, 26px) !important;
+    width: auto !important;
+}
+
+/* Explicit fallback override for Credit Card gateway multi-logos line to keep it smaller (20px) */
+.wc-block-checkout__payment-method .wc-block-components-radio-control-accordion-option .wc-block-components-radio-control__label .moyasar-blocks-icons-moyasar_cc img,
+.moyasar-blocks-icons-moyasar_cc img {
+    height: var(--moyasar-icon-height, 20px) !important;
+    max-height: var(--moyasar-icon-height, 20px) !important;
+}
+
+.moyasar-samsung-pay-btn:hover {
+    opacity: 0.9;
+}
+
+.moyasar-blocks-cc input[type="text"],
+.moyasar-blocks-cc input[type="password"],
+.moyasar-blocks-stc input[type="text"] {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}

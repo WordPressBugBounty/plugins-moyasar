@@ -1,0 +1,591 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Moyasar Payments\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-15 22:30+0000\n"
+"PO-Revision-Date: 2026-02-15 23:45+0300\n"
+"Last-Translator: Moyasar <support@moyasar.com>\n"
+"Language-Team: Arabic <support@moyasar.com>\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%99<=99 ? 4 : 5);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: moyasar-payments\n"
+
+msgid "Moyasar Payments"
+msgstr "Moyasar Payments"
+
+msgid "Accept payments via Credit Card, Apple Pay, STC Pay, and Samsung Pay using Moyasar."
+msgstr "اقبل الدفع عبر البطاقات الائتمانية، أبل باي، اس تي سي باي، و سامسونج باي باستخدام Moyasar."
+
+msgid "STC Pay"
+msgstr "اس تي سي باي | STC Pay"
+
+msgid "Accept payments via STC Pay."
+msgstr "اقبل الدفع عبر اس تي سي باي."
+
+msgid "Enable/Disable"
+msgstr "تفعيل/تعطيل"
+
+msgid "Enable STC Pay"
+msgstr "تفعيل اس تي سي باي"
+
+msgid "You can also manage this from the <a href=\"%s\">Main Moyasar Settings</a>."
+msgstr "يمكنك أيضاً إدارة ذلك من <a href=\"%s\">إعدادات Moyasar الرئيسية</a>."
+
+msgid "API Configuration"
+msgstr "إعدادات الربط (API)"
+
+msgid "API Keys and Webhook settings are now managed in the <a href=\"%s\">Main Moyasar Settings</a>."
+msgstr "تُدار مفاتيح الربط وإعدادات الويب هوك الآن من <a href=\"%s\">إعدادات Moyasar الرئيسية</a>."
+
+msgid "Please enter a valid STC Pay mobile number (05xxxxxxxx)."
+msgstr "فضلاً أدخل رقم جوال STC Pay صحيح (05xxxxxxxx)."
+
+msgid "Payment verification failed. Please try again."
+msgstr "تعذر التحقق من الدفع. يرجى المحاولة مرة أخرى."
+
+msgid "Processing Payment..."
+msgstr "جاري معالجة الدفع..."
+
+msgid "STC Pay Verification"
+msgstr "التحقق من اس تي سي باي"
+
+msgid "Please enter the OTP sent to your mobile number."
+msgstr "فضلاً أدخل رمز التحقق المرسل إلى جوالك."
+
+msgid "Enter OTP"
+msgstr "أدخل رمز التحقق"
+
+msgid "Confirm Payment"
+msgstr "تأكيد الدفع"
+
+msgid "Please enter the OTP."
+msgstr "فضلاً أدخل رمز التحقق."
+
+msgid "Verification failed."
+msgstr "فشل التحقق."
+
+msgid "Payment verification cancelled. Please try again."
+msgstr "تم إلغاء التحقق من عملية الدفع. يرجى المحاولة مرة أخرى."
+
+msgid "Moyasar"
+msgstr "ميسر"
+
+msgid "Accept payments via Moyasar (Credit Card, Apple Pay, STC Pay, etc)."
+msgstr "اقبل الدفع عبر Moyasar (البطاقات الائتمانية، أبل باي، اس تي سي باي، وغيرها)."
+
+msgid "Card Payment"
+msgstr "الدفع بالبطاقة"
+
+msgid "Pay with your Credit/Debit Card."
+msgstr "ادفع باستخدام البطاقة الائتمانية أو مدى."
+
+msgid "Processing..."
+msgstr "جاري المعالجة..."
+
+msgid "Please complete all credit card fields."
+msgstr "فضلاً أكمل جميع حقول البطاقة."
+
+msgid "This card brand (%s) is not supported."
+msgstr "نوع البطاقة (%s) غير مدعوم."
+
+msgid "Invalid CVC."
+msgstr "رمز التحقق (CVC) غير صحيح."
+
+msgid "Invalid Expiry Date."
+msgstr "تاريخ الانتهاء غير صحيح."
+
+msgid "Payment verification cancelled."
+msgstr "تم إلغاء التحقق من الدفع."
+
+msgid "Connection error. Please try again."
+msgstr "خطأ في الاتصال. يرجى المحاولة مرة أخرى."
+
+msgid "Unknown error occurred."
+msgstr "حدث خطأ غير معروف."
+
+msgid "Verification failed"
+msgstr "التحقق فشل"
+
+msgid "Verification request failed"
+msgstr "فشل طلب التحقق"
+
+msgid "Apple Pay"
+msgstr "أبل باي"
+
+msgid "Pay with Apple Pay"
+msgstr "ادفع باستخدام أبل باي"
+
+msgid "Enable Moyasar Apple Pay"
+msgstr "تفعيل Moyasar Apple Pay"
+
+msgid "Enable Saved Cards"
+msgstr "تفعيل حفظ البطاقات"
+
+msgid "Enable Payment Method Saving"
+msgstr "تفعيل حفظ طريقة الدفع"
+
+msgid "If enabled, users can save their Apple Pay card to their account (if supported by Moyasar)."
+msgstr "عند التفعيل، يمكن للعميل حفظ بطاقة Apple Pay في حسابه (إذا كانت مدعومة من Moyasar)."
+
+msgid "Domain Verification File Content"
+msgstr "محتوى ملف التحقق من النطاق"
+
+msgid "Paste the content of the apple-developer-merchantid-domain-association file here. You can download it from your Moyasar Dashboard > Apple Pay Settings."
+msgstr "ألصق محتوى ملف apple-developer-merchantid-domain-association هنا. يمكنك تحميله من لوحة تحكم Moyasar > إعدادات Apple Pay."
+
+msgid "Button Style"
+msgstr "نمط الزر"
+
+msgid "Customize the appearance of the Apple Pay button."
+msgstr "تخصيص مظهر زر Apple Pay."
+
+msgid "Button Theme"
+msgstr "سمة الزر"
+
+msgid "Dark (Black)"
+msgstr "داكن (أسود)"
+
+msgid "Light (White)"
+msgstr "فاتح (أبيض)"
+
+msgid "Light Outline"
+msgstr "فاتح مع إطار"
+
+msgid "Button Height (px)"
+msgstr "ارتفاع الزر (بكسل)"
+
+msgid "Button Height"
+msgstr "ارتفاع الزر"
+
+msgid "Height of the Apple Pay button in pixels."
+msgstr "ارتفاع زر Apple Pay بالبكسل."
+
+msgid "Button Label"
+msgstr "نص الزر"
+
+msgid "Logo Only"
+msgstr "الشعار فقط"
+
+msgid "Buy with Apple Pay"
+msgstr "شراء بواسطة Apple Pay"
+
+msgid "Donate with Apple Pay"
+msgstr "تبرع بواسطة Apple Pay"
+
+msgid "Check out with Apple Pay"
+msgstr "دفع بواسطة Apple Pay"
+
+msgid "Book with Apple Pay"
+msgstr "حجز بواسطة Apple Pay"
+
+msgid "Subscribe with Apple Pay"
+msgstr "اشتراك بواسطة Apple Pay"
+
+msgid "Text to display on the button."
+msgstr "النص المعروض على الزر."
+
+msgid "Payment Failed"
+msgstr "فشلت عملية الدفع"
+
+msgid "Connection Error"
+msgstr "خطأ في الاتصال"
+
+msgid "Apple Pay Merchant Validation Failed"
+msgstr "فشل التحقق من تاجر Apple Pay"
+
+msgid "Apple Pay token is missing."
+msgstr "رمز Apple Pay مفقود."
+
+msgid "Payment failed."
+msgstr "فشلت عملية الدفع."
+
+# Admin Translations
+msgid "Test mode"
+msgstr "وضع الاختبار (Test Mode)"
+
+msgid "Enable Test Mode"
+msgstr "تفعيل وضع الاختبار (Enable Test Mode)"
+
+msgid "Place the payment gateway in test mode using test API keys."
+msgstr "تفعيل بوابة الدفع في وضع الاختبار باستخدام مفاتيح API التجريبية."
+
+msgid "Test Publishable Key"
+msgstr "مفتاح النشر للاختبار (Test Publishable Key)"
+
+msgid "Get your API keys from your Moyasar dashboard. Only values starting with \"pk_test_\" will be saved."
+msgstr "احصل على مفاتيح API من لوحة تحكم Moyasar. سيتم حفظ القيم التي تبدأ بـ \"pk_test_\" فقط."
+
+msgid "Test Secret Key"
+msgstr "المفتاح السري للاختبار (Test Secret Key)"
+
+msgid "Get your API keys from your Moyasar dashboard. Only values starting with \"sk_test_\" will be saved."
+msgstr "احصل على مفاتيح API من لوحة تحكم Moyasar. سيتم حفظ القيم التي تبدأ بـ \"sk_test_\" فقط."
+
+msgid "Live Publishable Key"
+msgstr "مفتاح النشر الحي (Live Publishable Key)"
+
+msgid "Get your API keys from your Moyasar dashboard. Only values starting with \"pk_live_\" will be saved."
+msgstr "احصل على مفاتيح API من لوحة تحكم Moyasar. سيتم حفظ القيم التي تبدأ بـ \"pk_live_\" فقط."
+
+msgid "Live Secret Key"
+msgstr "المفتاح السري الحي (Live Secret Key)"
+
+msgid "Get your API keys from your Moyasar dashboard. Only values starting with \"sk_live_\" will be saved."
+msgstr "احصل على مفاتيح API من لوحة تحكم Moyasar. سيتم حفظ القيم التي تبدأ بـ \"sk_live_\" فقط."
+
+msgid "Webhook URL"
+msgstr "رابط الويب هوك (Webhook URL)"
+
+msgid "Webhook Secret"
+msgstr "سر الويب هوك (Webhook Secret)"
+
+msgid "Allowed Countries"
+msgstr "الدول المسموحة"
+
+msgid "Select the countries you want to accept payments from. Leave empty to accept all."
+msgstr "اختر الدول التي تريد قبول الدفع منها. اترك الحقل فارغاً لقبول الجميع."
+
+msgid "Apple Pay Domain Verification File"
+msgstr "ملف التحقق من نطاق Apple Pay"
+
+msgid "Upload the domain verification file provided by Apple."
+msgstr "رفع ملف التحقق من النطاق المقدم من Apple."
+
+msgid "Samsung Pay Service ID"
+msgstr "معرف خدمة Samsung Pay (Service ID)"
+
+msgid "Your Samsung Pay Service ID from the Samsung Pay Partner Portal."
+msgstr "معرف خدمة Samsung Pay الخاص بك من بوابة شركاء Samsung Pay."
+
+msgid "Enable Moyasar Payments"
+msgstr "تفعيل مدفوعات Moyasar"
+
+msgid "Activate or deactivate all Moyasar payment methods on your store."
+msgstr "تفعيل أو تعطيل جميع طرق دفع Moyasar في متجرك."
+
+msgid "Payments accepted on checkout"
+msgstr "طرق الدفع المقبولة عند إتمام الطلب"
+
+msgid "Select payments available to customers at checkout. Based on their device type, location, and purchase history, your customers will only see the most relevant payment methods."
+msgstr "اختر طرق الدفع المتاحة للعملاء. سيظهر للعملاء الطرق الأنسب بناءً على أجهزتهم وموقعهم."
+
+msgid "Payment methods"
+msgstr "طرق الدفع"
+
+msgid "Method Details"
+msgstr "تفاصيل الطريقة"
+
+msgid "Enable %s"
+msgstr "تفعيل %s"
+
+msgid "Accept payments via %s."
+msgstr "قبول الدفع عبر %s."
+
+msgid "Moyasar - Credit Card Payment"
+msgstr "Moyasar - الدفع بالبطاقة"
+
+msgid "Instant Checkout"
+msgstr "الدفع السريع (Instant Checkout)"
+
+msgid "Enable and customize Apple Pay and Quick Buy buttons on product pages."
+msgstr "تفعيل وتخصيص أزرار أبل باي والشراء السريع في صفحات المنتج."
+
+msgid "Apple Pay Settings"
+msgstr "إعدادات أبل باي"
+
+msgid "Button Preview"
+msgstr "معاينة الزر"
+
+msgid "Quick Buy"
+msgstr "الشراء السريع (Quick Buy)"
+
+msgid "Enable and customize the Quick Buy button. This allows users to pay directly from the product page."
+msgstr "تفعيل وتخصيص زر الشراء السريع. يتيح للمستخدمين الدفع مباشرة من صفحة المنتج."
+
+msgid "Note:"
+msgstr "ملاحظة:"
+
+msgid "This button will ONLY be visible to logged-in users who have a saved credit card and a saved billing address."
+msgstr "سيظهر هذا الزر فقط للمستخدمين المسجلين الذين لديهم بطاقة محفوظة وعنوان فاتورة محفوظ."
+
+msgid "Quick Buy Settings"
+msgstr "إعدادات الشراء السريع"
+
+msgid "Enable Quick Buy Button (Beta)"
+msgstr "تفعيل زر الشراء السريع (Beta)"
+
+msgid "Show a Quick Buy button for Credit Card payments on product pages."
+msgstr "إظهار زر الشراء السريع لمدفوعات البطائق في صفحات المنتج."
+
+msgid "Shipping Options"
+msgstr "خيارات الشحن"
+
+msgid "Enable Shipping for Quick Buy"
+msgstr "تفعيل الشحن للشراء السريع"
+
+msgid "If enabled, the selected shipping method below will be applied."
+msgstr "في حال التفعيل، سيتم تطبيق طريقة الشحن المختارة أدناه."
+
+msgid "Shipping Method"
+msgstr "طريقة الشحن"
+
+msgid "Select the shipping method to apply for Quick Buy orders."
+msgstr "اختر طريقة الشحن لتطبيقها على طلبات الشراء السريع."
+
+msgid "Account Setup"
+msgstr "إعداد الحساب"
+
+msgid "Manage your API keys for Test and Live modes."
+msgstr "إدارة مفاتيح API للوضع التجريبي والحي."
+
+msgid "Go to Dashboard"
+msgstr "الذهاب للوحة التحكم"
+
+msgid "Webhook Integration"
+msgstr "ربط الويب هوك (Webhook Integration)"
+
+msgid "Important:"
+msgstr "مهم:"
+
+msgid "In case of user connectivity issues, a webhook will be sent to your store to update the transaction status."
+msgstr "في حال انقطاع اتصال المستخدم، سيتم إرسال ويب هوك لمتجرك لتحديث حالة العملية."
+
+msgid "Please check the documentation to configure the URL and Secret correctly. Keep the rest of the fields as is."
+msgstr "يرجى مراجعة التوثيق لضبط الرابط والمفتاح السري بشكل صحيح."
+
+msgid "View Documentation"
+msgstr "عرض التوثيق"
+
+msgid "Copy"
+msgstr "نسخ"
+
+msgid "Show"
+msgstr "إظهار"
+
+msgid "This is your Webhook Secret. Usage: Enter this in your Moyasar Dashboard > Webhooks settings."
+msgstr "هذا هو سر الويب هوك الخاص بك. الاستخدام: أدخله في لوحة تحكم Moyasar > إعدادات Webhooks."
+
+msgid "Card Settings"
+msgstr "إعدادات البطاقة"
+
+msgid "Configure allowed card brands and countries."
+msgstr "إعداد أنواع البطاقات والدول المسموحة."
+
+msgid "Allowed Brands"
+msgstr "البطاقات المقبولة"
+
+msgid "Select the card brands you accept."
+msgstr "اختر أنواع البطاقات التي تقبلها."
+
+msgid "If restricted, only customers from these countries can use this gateway."
+msgstr "في حال التحديد، سيتمكن عملاء هذه الدول فقط من استخدام البوابة."
+
+msgid "Apple Pay Web Registration"
+msgstr "تسجيل ويب Apple Pay"
+
+msgid "Web Registration is a feature provided by Moyasar that allows merchants to enable Apple Pay on the web without the need for an Apple Developer account."
+msgstr "تسجيل الويب هي ميزة من Moyasar تتيح للتجار تفعيل Apple Pay للويب بدون حساب مطور Apple."
+
+msgid "You can upload the Verification File here."
+msgstr "يمكنك رفع ملف التحقق هنا."
+
+msgid "Domain Verification File"
+msgstr "ملف التحقق من النطاق"
+
+msgid "Upload File"
+msgstr "رفع الملف"
+
+msgid "Upload the domain association file provided by Apple. It will be served automatically at /.well-known/apple-developer-merchantid-domain-association"
+msgstr "ارفع ملف ربط النطاق المقدم من Apple. سيتم عرضه تلقائياً."
+
+msgid "Remove File"
+msgstr "حذف الملف"
+
+msgid "Verification Status"
+msgstr "حالة التحقق"
+
+msgid "File Uploaded"
+msgstr "تم رفع الملف"
+
+msgid "File Not Uploaded"
+msgstr "لم يتم رفع الملف"
+
+msgid "View Served File"
+msgstr "عرض الملف"
+
+msgid "Samsung Pay Setup"
+msgstr "إعداد Samsung Pay"
+
+msgid "Configure Samsung Pay Integration. You need to setup your Service ID."
+msgstr "إعداد ربط Samsung Pay. تحتاج لضبط Service ID الخاص بك."
+
+msgid "Order Status Configuration"
+msgstr "إعدادات حالة الطلب"
+
+msgid "Configure the order status after specific payment events."
+msgstr "ضبط حالة الطلب بعد أحداث الدفع المحددة."
+
+msgid "Success Status"
+msgstr "حالة النجاح"
+
+msgid "Select the order status after a successful payment."
+msgstr "اختر حالة الطلب بعد عملية دفع ناجحة."
+
+msgid "Failed Status"
+msgstr "حالة الفشل"
+
+msgid "Select the order status after a failed payment."
+msgstr "اختر حالة الطلب بعد عملية دفع فاشلة."
+
+msgid "Refund Status"
+msgstr "حالة الاسترجاع"
+
+msgid "Select the order status after a refund."
+msgstr "اختر حالة الطلب بعد الاسترجاع."
+
+msgid "Void Status"
+msgstr "حالة الإلغاء"
+
+msgid "Select the order status after a void."
+msgstr "اختر حالة الطلب بعد الإلغاء."
+
+msgid "Settings"
+msgstr "الإعدادات"
+
+msgid "Enable Credit Card Payment Method"
+msgstr "تفعيل الدفع بالبطاقة"
+
+msgid "Enable or disable the Credit Card payment method specifically."
+msgstr "تفعيل أو تعطيل طريقة الدفع بالبطاقة تحديداً."
+
+msgid "Title"
+msgstr "العنوان"
+
+msgid "This controls the title which the user sees during checkout."
+msgstr "يتحكم هذا بالعنوان الذي يراه المستخدم عند إتمام الطلب."
+
+msgid "Credit Card (Moyasar)"
+msgstr "Credit Card (Moyasar)"
+
+msgid "Description"
+msgstr "الوصف"
+
+msgid "Payment method description that the customer will see on your checkout."
+msgstr "وصف طريقة الدفع الذي سيراه العميل عند إتمام الطلب."
+
+msgid "Pay with Credit Card via Moyasar."
+msgstr "ادفع بالبطاقة الائتمانية عبر Moyasar."
+
+msgid "Credit Card Payment"
+msgstr "الدفع بالبطاقة الائتمانية"
+
+msgid "Select the height of the Apple Pay button. This setting applies ONLY to the Product Page."
+msgstr "اختر ارتفاع زر Apple Pay. هذا الإعداد يطبق فقط على صفحة المنتج."
+
+# Checkout Form Fields
+msgid "Cardholder Name"
+msgstr "اسم حامل البطاقة"
+
+msgid "Name on Card"
+msgstr "الاسم على البطاقة"
+
+msgid "Card Number"
+msgstr "رقم البطاقة"
+
+msgid "Expiry (MM/YY)"
+msgstr "الانتهاء (سنة/شهر)"
+
+msgid "Card Code (CVC)"
+msgstr "رمز التحقق (CVC)"
+
+# New Translations
+msgid "Save to account"
+msgstr "حفظ البطاقة في حسابي"
+
+msgid "Mobile Number"
+msgstr "رقم الجوال"
+
+msgid "Pay with STC Pay"
+msgstr "ادفع باستخدام اس تي سي باي"
+
+msgid "Enable Apple Pay on Product Page"
+msgstr "تفعيل Apple Pay في صفحة المنتج"
+
+msgid "Show the Apple Pay button on individual product pages."
+msgstr "إظهار زر Apple Pay في صفحات المنتجات الفردية."
+
+msgid "Accept Credit/Debit Cards, Apple Pay, and more."
+msgstr "اقبل الدفع بالبطاقات الائتمانية، أبل باي، والمزيد."
+
+# Invoice Gateway
+msgid "Moyasar Default (invoice)"
+msgstr "ميسر (الفاتورة)"
+
+msgid "Moyasar Invoice"
+msgstr "فاتورة ميسر"
+
+msgid "Pay by Invoice"
+msgstr "الدفع بالفاتورة"
+
+msgid "Redirect customers to a secure Moyasar payment page to pay with card, Apple Pay, or other methods. Works with all themes and as a fallback when embedded checkout is unavailable."
+msgstr "توجيه العملاء إلى صفحة دفع ميسر الآمنة للدفع بالبطاقة أو أبل باي أو غيرها. يعمل مع جميع القوالب وكخيار بديل عند عدم توفر الدفع المضمن."
+
+msgid "Invoice"
+msgstr "الفاتورة"
+
+msgid "Redirect customers to a secure Moyasar payment page. Supports cards, Apple Pay, and more. Works with all themes and as a fallback when embedded checkout is unavailable."
+msgstr "توجيه العملاء إلى صفحة دفع ميسر الآمنة. يدعم البطاقات وأبل باي والمزيد. يعمل مع جميع القوالب وكخيار بديل عند عدم توفر الدفع المضمن."
+
+#: includes/class-moyasar-helper.php:435
+msgid "MasterCard"
+msgstr "ماستركارد"
+
+#: includes/class-moyasar-helper.php:436
+msgid "American Express"
+msgstr "أمريكان إكسبريس"
+
+
+
+# User Requested Additional Translations
+msgid "Credit Card"
+msgstr "البطاقات الائتمانية"
+
+msgid "Supports recurring payments"
+msgstr "يدعم الدفعات المتكررة"
+
+msgid "Accept payments via Credit Cards (Mada, Visa, MasterCard, Amex). The payment form is embedded directly in your checkout page."
+msgstr "استقبل المدفوعات عبر البطاقات الائتمانية (مدى، فيزا، ماستركارد، أمريكان إكسبريس). نموذج الدفع مضمن مباشرة في صفحة الدفع."
+
+msgid "Accept secure payments via Apple Pay. Customers can pay using Touch ID or Face ID on supported devices."
+msgstr "استقبل مدفوعات آمنة عبر أبل باي. يمكن للعملاء الدفع باستخدام Touch ID أو Face ID على الأجهزة المدعومة."
+
+msgid "Accept payments via STC Pay digital wallet. Customers verify payment using their mobile number."
+msgstr "استقبل المدفوعات عبر محفظة اس تي سي باي الرقمية. يتحقق العملاء من الدفع باستخدام رقم جوالهم."
+
+msgid "Samsung Pay"
+msgstr "سامسونج باي"
+
+msgid "Accept secure payments via Samsung Pay on supported Samsung devices."
+msgstr "استقبل مدفوعات آمنة عبر سامسونج باي على أجهزة سامسونج المدعومة."
+
+msgid "Moyasar Payments Upgrade Notice"
+msgstr "إشعار ترقية مدفوعات ميسر"
+
+msgid "Moyasar Payments has been upgraded to a new version. Some of your payment configurations have been migrated automatically, but please ensure your API Keys, Webhook Secrets, and active payment methods are correctly configured."
+msgstr "تم تحديث بوابة دفع ميسر إلى إصدار جديد. تم نقل الإعدادات السابقة تلقائياً، يرجى التأكد من إعدادات المفاتيح (API Keys) ورموز التحقق للويب هوك (Webhook Secrets) وطرق الدفع المفعلة."
+
+msgid "Review Settings"
+msgstr "مراجعة الإعدادات"
+
+msgid "Dismiss"
+msgstr "تجاهل"
+
+msgid "Configuration Note:"
+msgstr "ملاحظة الإعدادات:"
+
+msgid "This is a new version of Moyasar Payments. Some configurations have been migrated automatically. Please ensure your API Keys, Webhook Secrets, and active payment methods are correctly configured."
+msgstr "هذا إصدار جديد من بوابة دفع ميسر. تم نقل الإعدادات السابقة تلقائياً. يرجى التأكد من إعدادات المفاتيح (API Keys) ورموز التحقق للويب هوك (Webhook Secrets) وطرق الدفع المفعلة."
