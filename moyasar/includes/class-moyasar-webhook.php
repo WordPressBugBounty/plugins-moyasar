@@ -32,15 +32,6 @@ class Moyasar_Webhook {
             exit( 'Invalid payload structure' );
         }
 
-        $data = $event['data'];
-        if ( ! isset( $data['id'] ) || ! is_string( $data['id'] )
-            || ! isset( $data['status'] ) || ! is_string( $data['status'] )
-            || ! isset( $data['amount'] ) || ! is_numeric( $data['amount'] ) 
-        ) {
-            status_header( 400 );
-            exit( 'Invalid payload data' );
-        }
-
         $webhook_secret = Moyasar_Helper::get_moyasar_option( 'webhook_secret', '' );
         $received_secret = isset( $event['secret_token'] ) ? sanitize_text_field( wp_unslash( $event['secret_token'] ) ) : '';
         if ( ! $this->secureCompare( (string) $webhook_secret, (string) $received_secret ) ) {
@@ -52,6 +43,19 @@ class Moyasar_Webhook {
                 'message' => 'Webhook received with invalid secret',
             ) );
             exit;
+        }
+
+        if ( Moyasar_Webhook_Verification::EVENT === $event['type'] ) {
+            Moyasar_Webhook_Verification::handle_event( $event['data'] );
+        }
+
+        $data = $event['data'];
+        if ( ! isset( $data['id'] ) || ! is_string( $data['id'] )
+            || ! isset( $data['status'] ) || ! is_string( $data['status'] )
+            || ! isset( $data['amount'] ) || ! is_numeric( $data['amount'] ) 
+        ) {
+            status_header( 400 );
+            exit( 'Invalid payload data' );
         }
 
         // Webhook event deduplication (SEC-7 replay protection)

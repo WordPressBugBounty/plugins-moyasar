@@ -56,6 +56,44 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <button type="button" class="button" onclick="moyasarCopyInput('<?php echo esc_attr( 'woocommerce_moyasar_webhook_secret' ); ?>')"><?php _e( 'Copy', 'moyasar-payments' ); ?></button>
                 </div>
                 <p class="description"><?php _e( 'This is your Webhook Secret. Usage: Enter this in your Moyasar Dashboard > Webhooks settings.', 'moyasar-payments' ); ?></p>
+
+                <?php
+                    $verification_state = Moyasar_Webhook_Verification::get_state();
+                    $verification_code  = Moyasar_Webhook_Verification::get_active_code();
+                    $verification_status = $verification_state['status'] ?? '';
+                ?>
+                <div id="moyasar-webhook-verification" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #f0f0f1;">
+                    <p style="margin-top: 0;"><strong><?php _e( 'Webhook Verification:', 'moyasar-payments' ); ?></strong></p>
+                    <?php if ( Moyasar_Webhook_Verification::STATUS_VERIFIED === $verification_status ) : ?>
+                        <p style="color: #00a32a;"><span class="dashicons dashicons-yes-alt"></span> <?php _e( 'Verified. Your store receives webhooks from Moyasar.', 'moyasar-payments' ); ?></p>
+                    <?php elseif ( $verification_code ) : ?>
+                        <p><?php _e( 'Moyasar sent this verification code to your store, but it could not be verified automatically. Enter it in your Moyasar Dashboard > Webhooks to verify your webhook.', 'moyasar-payments' ); ?></p>
+                        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                            <input type="text" value="<?php echo esc_attr( $verification_code['code'] ); ?>" readonly style="width: 140px; font-size: 18px; letter-spacing: 4px; text-align: center; background: #f9f9f9;" id="moyasar_webhook_verification_code">
+                            <button type="button" class="button" onclick="moyasarCopyInput('moyasar_webhook_verification_code')"><?php _e( 'Copy', 'moyasar-payments' ); ?></button>
+                        </div>
+                        <p class="description">
+                            <?php
+                                printf( esc_html__( 'Expires at %s.', 'moyasar-payments' ), esc_html( wp_date( get_option( 'time_format' ), (int) $verification_code['expires_at'] ) ) );
+                            ?>
+                            <?php if ( ! empty( $verification_code['error'] ) ) : ?>
+                                <br><?php echo esc_html( sprintf( __( 'Automatic verification failed: %s', 'moyasar-payments' ), $verification_code['error'] ) ); ?>
+                            <?php endif; ?>
+                        </p>
+                    <?php elseif ( ! empty( $verification_state['webhook_id'] ) ) : ?>
+                        <p><?php _e( 'Waiting for a verification code from Moyasar. If your code expired, request a new one.', 'moyasar-payments' ); ?></p>
+                    <?php else : ?>
+                        <p class="description"><?php _e( 'After you add the webhook in your Moyasar Dashboard, Moyasar sends a verification code to your store and the plugin verifies it automatically using your secret key.', 'moyasar-payments' ); ?></p>
+                    <?php endif; ?>
+
+                    <?php if ( ! empty( $verification_state['webhook_id'] ) && Moyasar_Webhook_Verification::STATUS_VERIFIED !== $verification_status ) : ?>
+                        <p>
+                            <button type="button" class="button" id="moyasar-resend-webhook-verification"><?php _e( 'Resend Code', 'moyasar-payments' ); ?></button>
+                            <span class="spinner" id="moyasar-resend-webhook-spinner" style="float: none;"></span>
+                            <span id="moyasar-resend-webhook-result"></span>
+                        </p>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
     </div>

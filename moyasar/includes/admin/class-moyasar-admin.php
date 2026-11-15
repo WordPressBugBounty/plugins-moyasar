@@ -42,8 +42,6 @@ class Moyasar_Admin {
         $this->plugin_name = $plugin_name;
         $this->version     = $version;
 
-        add_filter( 'upload_mimes', array( $this, 'apple_pay_upload_mimes' ) );
-        add_filter( 'wp_check_filetype_and_ext', array( $this, 'apple_pay_check_filetype' ), 10, 4 );
         add_action( 'admin_notices', array( $this, 'migration_admin_notice' ) );
         add_action( 'admin_init', array( $this, 'dismiss_migration_notice' ) );
         add_action( 'after_plugin_row_moyasar-payments/moyasar-payments.php', array( $this, 'plugin_row_migration_note' ), 10, 3 );
@@ -136,30 +134,6 @@ class Moyasar_Admin {
      * @since    8.0.0
      */
     /**
-     * Add Apple Pay Verification File to Allowed content types
-     */
-    public function apple_pay_upload_mimes( $mimes ) {
-        // Allow the specific filename as a "fake" extension just in case WP checks it that way
-        $mimes['apple-developer-merchantid-domain-association'] = 'text/plain';
-        // Allow text/plain generically if not present (risky but sometimes needed)
-        $mimes['txt'] = 'text/plain';
-        return $mimes;
-    }
-
-    /**
-     * Correct filetype for Apple Pay Verification File
-     */
-    public function apple_pay_check_filetype( $data, $file, $filename, $mimes ) {
-        // Loose check: If filename contains the apple domain association string
-        if ( strpos( $filename, 'apple-developer-merchantid-domain-association' ) !== false ) {
-            $data['ext']             = 'txt'; // Treat as text extension internally for WP safety
-            $data['type']            = 'text/plain';
-            // We do NOT enforce proper_filename anymore, let WP/User decide name
-        } 
-        return $data;
-    }
-
-    /**
      * Register the JavaScript and Styles for the admin area.
      *
      * @since    8.0.0
@@ -183,6 +157,7 @@ class Moyasar_Admin {
         wp_localize_script( $this->plugin_name . '-admin', 'moyasar_admin_params', array(
             'ajax_url'            => admin_url( 'admin-ajax.php' ),
             'validate_keys_nonce' => wp_create_nonce( 'moyasar_validate_keys' ),
+            'resend_webhook_verification_nonce' => wp_create_nonce( 'moyasar_resend_webhook_verification' ),
             'strings'             => array(
                 'validating'      => __( 'Validating keys...', 'moyasar-payments' ),
                 'validate_btn'    => __( 'Validate API Keys', 'moyasar-payments' ),
@@ -191,6 +166,7 @@ class Moyasar_Admin {
                 'format_error'    => __( 'Format Error', 'moyasar-payments' ),
                 'empty'           => __( 'Not Configured', 'moyasar-payments' ),
                 'connection_err'  => __( 'Connection error while validating keys.', 'moyasar-payments' ),
+                'resending'       => __( 'Requesting a new code...', 'moyasar-payments' ),
             ),
         ) );
     }
@@ -1229,6 +1205,22 @@ class Moyasar_Admin {
         $results = Moyasar_Helper::validate_all_keys( $keys, $test_mode );
 
         wp_send_json_success( $results );
+    }
+
+    public function ajax_resend_webhook_verification() {
+        check_ajax_referer( 'moyasar_resend_webhook_verification', 'security' );
+
+        if ( ! current_user_can( 'manage_woocommerce' ) ) {
+            wp_send_json_error( array( 'message' => __( 'Permission denied.', 'moyasar-payments' ) ) );
+        }
+
+        $result = Moyasar_Webhook_Verification::resend();
+
+        if ( is_wp_error( $result ) ) {
+            wp_send_json_error( array( 'message' => $result->get_error_message() ) );
+        }
+
+        wp_send_json_success( $result );
     }
 
     /**

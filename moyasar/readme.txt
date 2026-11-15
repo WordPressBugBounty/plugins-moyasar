@@ -3,7 +3,7 @@ Contributors: moyasar
 Tags: Gateway, Payment, Credit Card, Apple Pay, STC Pay
 Requires at least: 5.8
 Tested up to: 7.0
-Stable tag: 8.4.1
+Stable tag: 8.4.3
 Requires PHP: 7.4
 Language: en
 Translations: ar, ar_SA
@@ -46,6 +46,15 @@ This plugin relies on the following third-party services:
 By using this plugin, you agree to the terms and conditions of these third-party services.
 
 == Changelog ==
+
+= 8.4.3 =
+* Security: Removed the Apple Pay media upload filetype filters, which could let users with upload access store files with a PHP extension. The Apple Pay domain association file upload in the plugin settings is unchanged.
+* Security: Escaped API messages shown in the "Validate API Keys" results.
+
+= 8.4.2 =
+* Feature: Handle Moyasar webhook verification. The plugin now receives the `webhook_verification` event and verifies the webhook automatically using your secret key.
+* Feature: If automatic verification fails, the verification code and its expiry are shown in Advanced Settings > Webhook Integration so you can enter it in the Moyasar Dashboard.
+* Feature: Added a "Resend Code" button to request a new webhook verification code.
 
 = 8.4.1 =
 * Feature: Added "Validate API Keys" button in settings to verify Moyasar credentials.

@@ -94,6 +94,7 @@ class Moyasar_Run {
 		        /**
 		 * The class responsible for handling webhooks.
 		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-moyasar-webhook-verification.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-moyasar-webhook.php';
 
 		        /**
@@ -315,6 +316,7 @@ class Moyasar_Run {
 
         // Validate API Keys from Settings Page
         add_action( 'wp_ajax_moyasar_validate_keys', array( $plugin_admin, 'ajax_validate_keys' ) );
+        add_action( 'wp_ajax_moyasar_resend_webhook_verification', array( $plugin_admin, 'ajax_resend_webhook_verification' ) );
 
         // Order Actions dropdown integration
         add_filter( 'woocommerce_order_actions', array( $plugin_admin, 'add_order_capture_action' ), 10, 2 );

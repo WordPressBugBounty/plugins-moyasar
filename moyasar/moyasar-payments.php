@@ -3,7 +3,7 @@
  * Plugin Name:       Moyasar Payments
  * Plugin URI:        https://moyasar.com
  * Description:       Accept payments via Credit Card, Apple Pay, STC Pay, and Samsung Pay using Moyasar.
- * Version:           8.4.1
+ * Version:           8.4.3
  * Author:            Moyasar
  * Author URI:        https://moyasar.com
  * Text Domain:       moyasar-payments
@@ -23,7 +23,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Current Plugin Version.
  */
-define( 'MOYASAR_WC_VERSION', '8.4.1' );
+define( 'MOYASAR_WC_VERSION', '8.4.3' );
 
 /**
  * Plugin Path.

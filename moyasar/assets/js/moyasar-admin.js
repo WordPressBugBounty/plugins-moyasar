@@ -189,6 +189,10 @@ jQuery(document).ready(function ($) {
         });
     });
 
+    function escapeHtml(value) {
+        return $('<div>').text(value == null ? '' : String(value)).html();
+    }
+
     function getBadgeHtml(status, label) {
         var cls = 'moyasar-badge-empty';
         var icon = 'dashicons-minus';
@@ -207,7 +211,7 @@ jQuery(document).ready(function ($) {
             icon = 'dashicons-warning';
         }
 
-        return '<span class="moyasar-key-badge ' + cls + '"><span class="dashicons ' + icon + '" style="font-size: 14px; vertical-align: middle; line-height: 1;"></span> ' + label + '</span>';
+        return '<span class="moyasar-key-badge ' + cls + '"><span class="dashicons ' + icon + '" style="font-size: 14px; vertical-align: middle; line-height: 1;"></span> ' + escapeHtml(label) + '</span>';
     }
 
     function renderValidationResults(data) {
@@ -243,9 +247,9 @@ jQuery(document).ready(function ($) {
 
         // Summary text styling
         if (data.active_valid) {
-            $summary.css('color', '#00a32a').html('<span class="dashicons dashicons-yes-alt" style="vertical-align: text-bottom;"></span> ' + data.summary);
+            $summary.css('color', '#00a32a').html('<span class="dashicons dashicons-yes-alt" style="vertical-align: text-bottom;"></span> ' + escapeHtml(data.summary));
         } else {
-            $summary.css('color', '#d63638').html('<span class="dashicons dashicons-warning" style="vertical-align: text-bottom;"></span> ' + data.summary);
+            $summary.css('color', '#d63638').html('<span class="dashicons dashicons-warning" style="vertical-align: text-bottom;"></span> ' + escapeHtml(data.summary));
         }
 
         // Detailed Results Container HTML
@@ -259,7 +263,7 @@ jQuery(document).ready(function ($) {
 
         resultsHtml += '<div style="background: ' + bannerBg + '; border: 1px solid ' + bannerBorder + '; color: ' + bannerColor + '; border-radius: 4px; padding: 10px 14px; margin-bottom: 15px; font-weight: 500; display: flex; align-items: center; gap: 8px;">';
         resultsHtml += '<span class="dashicons ' + bannerIcon + '"></span>';
-        resultsHtml += '<span>' + data.summary + '</span>';
+        resultsHtml += '<span>' + escapeHtml(data.summary) + '</span>';
         resultsHtml += '</div>';
 
         // Table breakdown
@@ -277,9 +281,9 @@ jQuery(document).ready(function ($) {
             var badgeLabel = moyasar_admin_params.strings[item.status] || item.status.toUpperCase();
 
             resultsHtml += '<tr>';
-            resultsHtml += '<td style="padding: 10px 14px; font-weight: 600;">' + (fieldInfo ? fieldInfo.label : key) + envLabel + '</td>';
+            resultsHtml += '<td style="padding: 10px 14px; font-weight: 600;">' + escapeHtml(fieldInfo ? fieldInfo.label : key) + envLabel + '</td>';
             resultsHtml += '<td style="padding: 10px 14px;">' + getBadgeHtml(item.status, badgeLabel) + '</td>';
-            resultsHtml += '<td style="padding: 10px 14px; color: ' + (item.valid ? '#1d2327' : '#d63638') + ';">' + item.message + '</td>';
+            resultsHtml += '<td style="padding: 10px 14px; color: ' + (item.valid ? '#1d2327' : '#d63638') + ';">' + escapeHtml(item.message) + '</td>';
             resultsHtml += '</tr>';
         });
 
@@ -290,3 +294,44 @@ jQuery(document).ready(function ($) {
     }
 });
 
+jQuery(document).ready(function ($) {
+    $('#moyasar-resend-webhook-verification').on('click', function (e) {
+        e.preventDefault();
+
+        var $btn = $(this);
+        var $spinner = $('#moyasar-resend-webhook-spinner');
+        var $result = $('#moyasar-resend-webhook-result');
+
+        $btn.prop('disabled', true);
+        $spinner.addClass('is-active');
+        $result.css('color', '#646970').text(moyasar_admin_params.strings.resending || 'Requesting a new code...');
+
+        $.ajax({
+            url: moyasar_admin_params.ajax_url,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action: 'moyasar_resend_webhook_verification',
+                security: moyasar_admin_params.resend_webhook_verification_nonce
+            },
+            success: function (response) {
+                $spinner.removeClass('is-active');
+                $btn.prop('disabled', false);
+
+                if (response && response.success && response.data) {
+                    $result.css('color', '#00a32a').text(response.data.message);
+                } else {
+                    var errorMsg = (response && response.data && response.data.message)
+                        ? response.data.message
+                        : (moyasar_admin_params.strings.connection_err || 'Request failed.');
+                    $result.css('color', '#d63638').text(errorMsg);
+                }
+            },
+            error: function () {
+                $spinner.removeClass('is-active');
+                $btn.prop('disabled', false);
+                $result.css('color', '#d63638').text(moyasar_admin_params.strings.connection_err || 'Connection error.');
+            }
+        });
+    });
+});

@@ -162,4 +162,12 @@ class Moyasar_API {
     public static function fetch_invoice( $id, $api_key = null ) {
         return self::request( 'invoices/' . $id, 'GET', array(), $api_key );
     }
+
+    public static function verify_webhook( $id, $code, $api_key = null ) {
+        return self::request( 'webhooks/' . rawurlencode( $id ) . '/verify', 'POST', array( 'code' => $code ), $api_key );
+    }
+
+    public static function resend_webhook_verification( $id, $api_key = null ) {
+        return self::request( 'webhooks/' . rawurlencode( $id ) . '/resend_verification', 'POST', array(), $api_key );
+    }
 }
