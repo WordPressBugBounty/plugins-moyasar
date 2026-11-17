@@ -3,7 +3,7 @@ Contributors: moyasar
 Tags: Gateway, Payment, Credit Card, Apple Pay, STC Pay
 Requires at least: 5.8
 Tested up to: 7.0
-Stable tag: 8.4.3
+Stable tag: 8.4.4
 Requires PHP: 7.4
 Language: en
 Translations: ar, ar_SA
@@ -46,6 +46,11 @@ This plugin relies on the following third-party services:
 By using this plugin, you agree to the terms and conditions of these third-party services.
 
 == Changelog ==
+
+= 8.4.4 =
+* Security: An order is only marked as paid, authorized or captured when the Moyasar payment matches it: same currency, same amount as the order total, and the payment belongs to that order. This stops a payment made for one order from being used to pay another order, and stops a lowered amount from paying an order.
+* Security: Coupon discounts on a payment are checked with the Moyasar API before a lower amount is accepted. If the Moyasar API can't be reached, the webhook asks Moyasar to retry instead of rejecting the payment.
+* Security: A payment that doesn't match is not applied. The order stays unpaid and gets an order note with the reason.
 
 = 8.4.3 =
 * Security: Removed the Apple Pay media upload filetype filters, which could let users with upload access store files with a PHP extension. The Apple Pay domain association file upload in the plugin settings is unchanged.

@@ -138,6 +138,170 @@ class Moyasar_Helper {
         return isset( $fractions[ $currency ] ) ? $fractions[ $currency ] : 2;
     }
 
+    public static function verify_payment_for_order( $order, $payment ) {
+        if ( ! $order || ! is_a( $order, 'WC_Order' ) || ! is_array( $payment ) ) {
+            return new WP_Error( 'moyasar_payment_mismatch', 'Missing order or payment.' );
+        }
+
+        $payment_id = isset( $payment['id'] ) && is_string( $payment['id'] ) ? $payment['id'] : '';
+        if ( '' === $payment_id ) {
+            return new WP_Error( 'moyasar_payment_mismatch', 'Payment ID missing.' );
+        }
+
+        $order_currency   = strtoupper( (string) $order->get_currency() );
+        $payment_currency = isset( $payment['currency'] ) && is_string( $payment['currency'] ) ? strtoupper( $payment['currency'] ) : '';
+        if ( '' === $payment_currency || $payment_currency !== $order_currency ) {
+            return new WP_Error( 'moyasar_payment_mismatch', sprintf( 'Currency mismatch: payment %s, order %s.', $payment_currency, $order_currency ) );
+        }
+
+        $metadata   = ( isset( $payment['metadata'] ) && is_array( $payment['metadata'] ) ) ? $payment['metadata'] : array();
+        $meta_order = isset( $metadata['order_id'] ) && is_scalar( $metadata['order_id'] ) ? (string) $metadata['order_id'] : '';
+        $meta_key   = isset( $metadata['wc_order_key'] ) && is_scalar( $metadata['wc_order_key'] ) ? (string) $metadata['wc_order_key'] : '';
+        $order_id   = (string) $order->get_id();
+
+        if ( '' !== $meta_order && $meta_order !== $order_id ) {
+            return new WP_Error( 'moyasar_payment_mismatch', sprintf( 'Payment belongs to order %s, not order %s.', $meta_order, $order_id ) );
+        }
+
+        if ( '' !== $meta_key && ! hash_equals( (string) $order->get_order_key(), $meta_key ) ) {
+            return new WP_Error( 'moyasar_payment_mismatch', 'Payment order key does not match the order.' );
+        }
+
+        $stored_payment_id  = (string) $order->get_meta( '_moyasar_payment_id' );
+        $stored_ids         = array_filter( array(
+            $stored_payment_id,
+            (string) $order->get_meta( '_moyasar_stc_payment_id' ),
+            (string) $order->get_transaction_id(),
+        ) );
+        $stored_invoice_id  = (string) $order->get_meta( '_moyasar_invoice_id' );
+        $payment_invoice_id = isset( $payment['invoice_id'] ) && is_string( $payment['invoice_id'] ) ? $payment['invoice_id'] : '';
+
+        $is_stored = in_array( $payment_id, $stored_ids, true )
+            || ( '' !== $stored_invoice_id && $payment_invoice_id === $stored_invoice_id );
+
+        if ( '' === $meta_order && ! $is_stored ) {
+            return new WP_Error( 'moyasar_payment_mismatch', 'Payment is not linked to this order.' );
+        }
+
+        $owner = self::get_order_from_payment_id( $payment_id );
+        if ( $owner && $owner->get_id() !== $order->get_id() && $owner->get_parent_id() !== $order->get_id() ) {
+            return new WP_Error( 'moyasar_payment_mismatch', sprintf( 'Payment is already attached to order %d.', $owner->get_id() ) );
+        }
+
+        if ( $stored_payment_id === $payment_id && $order->is_paid() ) {
+            return true;
+        }
+
+        $paid_minor     = isset( $payment['amount'] ) && is_numeric( $payment['amount'] ) ? (int) $payment['amount'] : 0;
+        $expected_minor = (int) self::to_minor_units( $order->get_total(), $order_currency );
+
+        if ( $paid_minor <= 0 ) {
+            return new WP_Error( 'moyasar_payment_mismatch', 'Payment amount missing.' );
+        }
+
+        if ( $paid_minor === $expected_minor ) {
+            return true;
+        }
+
+        if ( $paid_minor < $expected_minor && ! empty( $metadata['#coupon_id'] ) ) {
+            return self::verify_coupon_amount( $order, $payment, $paid_minor, $expected_minor );
+        }
+
+        return new WP_Error(
+            'moyasar_payment_mismatch',
+            sprintf(
+                'Amount mismatch: payment %s, order total %s %s.',
+                self::from_minor_units( $paid_minor, $order_currency ),
+                self::from_minor_units( $expected_minor, $order_currency ),
+                $order_currency
+            )
+        );
+    }
+
+    public static function verify_coupon_amount( $order, $payment, $paid_minor, $expected_minor ) {
+        $coupon_id = is_scalar( $payment['metadata']['#coupon_id'] ) ? (string) $payment['metadata']['#coupon_id'] : '';
+        if ( ! preg_match( '/^[0-9a-f-]{36}$/i', $coupon_id ) ) {
+            return new WP_Error( 'moyasar_payment_mismatch', 'Invalid coupon ID on payment.' );
+        }
+
+        $coupon = Moyasar_API::fetch_coupon( $coupon_id );
+        if ( is_wp_error( $coupon ) ) {
+            $data = $coupon->get_error_data();
+            if ( is_array( $data ) && isset( $data['type'] ) && 'record_not_found' === $data['type'] ) {
+                return new WP_Error( 'moyasar_payment_mismatch', 'Coupon on the payment does not exist.' );
+            }
+            return new WP_Error( 'moyasar_payment_unverified', 'Could not fetch the coupon from Moyasar: ' . $coupon->get_error_message() );
+        }
+        if ( ! is_array( $coupon ) || ! isset( $coupon['id'] ) || (string) $coupon['id'] !== $coupon_id ) {
+            return new WP_Error( 'moyasar_payment_mismatch', 'Coupon on the payment does not exist.' );
+        }
+
+        $discount = isset( $coupon['discount'] ) && is_numeric( $coupon['discount'] ) ? (int) $coupon['discount'] : 0;
+        if ( $discount <= 0 || $discount > 100 ) {
+            return new WP_Error( 'moyasar_payment_mismatch', 'Coupon has no valid discount.' );
+        }
+
+        $created_at = isset( $payment['created_at'] ) ? strtotime( (string) $payment['created_at'] ) : false;
+        $start_date = isset( $coupon['start_date'] ) ? strtotime( (string) $coupon['start_date'] ) : false;
+        $end_date   = isset( $coupon['end_date'] ) ? strtotime( (string) $coupon['end_date'] ) : false;
+        if ( ! $created_at || ! $start_date || ! $end_date || $created_at < $start_date || $created_at > $end_date ) {
+            return new WP_Error( 'moyasar_payment_mismatch', 'Payment was not made while the coupon was valid.' );
+        }
+
+        $discount_minor = (int) round( $expected_minor * $discount / 100 );
+        $max_discount   = isset( $coupon['max_discount_amount'] ) && is_numeric( $coupon['max_discount_amount'] ) ? (int) $coupon['max_discount_amount'] : 0;
+        if ( $max_discount > 0 && $discount_minor > $max_discount ) {
+            $discount_minor = $max_discount;
+        }
+
+        if ( abs( ( $expected_minor - $discount_minor ) - $paid_minor ) <= 1 ) {
+            return true;
+        }
+
+        return new WP_Error(
+            'moyasar_payment_mismatch',
+            sprintf(
+                'Coupon amount mismatch: payment %s, expected %s %s after a %d%% coupon.',
+                self::from_minor_units( $paid_minor, $order->get_currency() ),
+                self::from_minor_units( $expected_minor - $discount_minor, $order->get_currency() ),
+                $order->get_currency(),
+                $discount
+            )
+        );
+    }
+
+    public static function reject_payment_for_order( $order, $payment, $error, $source = 'unknown' ) {
+        $payment_id = ( is_array( $payment ) && isset( $payment['id'] ) && is_string( $payment['id'] ) ) ? $payment['id'] : '';
+        $reason     = is_wp_error( $error ) ? $error->get_error_message() : 'Unknown';
+        $order_id   = $order ? $order->get_id() : 0;
+
+        self::log( "Payment verification failed for Order #{$order_id} (Source: {$source}, Payment ID: {$payment_id}): {$reason}", 'error' );
+
+        if ( ! $order ) {
+            return;
+        }
+
+        $rejected = $order->get_meta( '_moyasar_rejected_payment_ids' );
+        if ( ! is_array( $rejected ) ) {
+            $rejected = array();
+        }
+        if ( '' !== $payment_id && in_array( $payment_id, $rejected, true ) ) {
+            return;
+        }
+        if ( '' !== $payment_id ) {
+            $rejected[] = $payment_id;
+            $order->update_meta_data( '_moyasar_rejected_payment_ids', array_slice( $rejected, -20 ) );
+            $order->save();
+        }
+
+        $order->add_order_note( sprintf(
+            "Moyasar payment rejected: it does not match this order. The order was not marked as paid.\nPayment ID: %s\nReason: %s\nOrigin: %s",
+            sanitize_text_field( $payment_id ),
+            $reason,
+            ucfirst( str_replace( '_', ' ', $source ) )
+        ) );
+    }
+
     /**
      * Handle Moyasar Coupon/Promotion Discount.
      * Checks if paid amount is less than order total and adds a discount fee.

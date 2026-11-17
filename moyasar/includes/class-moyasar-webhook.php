@@ -173,6 +173,24 @@ class Moyasar_Webhook {
              exit( 'Order already failed' );
         }
 
+        $is_capture        = in_array( $type, array( 'captured', 'payment_captured' ), true );
+        $is_stored_capture = $is_capture && (string) $order->get_meta( '_moyasar_payment_id' ) === $data['id'];
+
+        if ( ( $is_capture && ! $is_stored_capture ) || in_array( $type, array( 'paid', 'payment_paid', 'authorized', 'payment_authorized' ), true ) ) {
+            $verified = Moyasar_Helper::verify_payment_for_order( $order, $data );
+            if ( is_wp_error( $verified ) && 'moyasar_payment_unverified' === $verified->get_error_code() ) {
+                Moyasar_Helper::log( 'Webhook: Payment ' . $payment_id . ' could not be verified for Order #' . $order->get_id() . ': ' . $verified->get_error_message(), 'error' );
+                delete_transient( $transient_key );
+                status_header( 503 );
+                exit( 'Payment could not be verified, retry later' );
+            }
+            if ( is_wp_error( $verified ) ) {
+                Moyasar_Helper::reject_payment_for_order( $order, $data, $verified, 'webhook' );
+                status_header( 200 );
+                exit( 'Payment does not match order' );
+            }
+        }
+
         // Switch based on Event Type
         switch ( $type ) {
             case 'paid':

@@ -83,7 +83,7 @@ class Moyasar_Callback {
                 $status  = 'failed';
                 $message = $invoice->get_error_message();
             } else {
-                $payment_id = $invoice['payments'][0]['id'];
+                $payment_id = isset( $invoice['payments'][0]['id'] ) ? (string) $invoice['payments'][0]['id'] : '';
             }
         }
 
@@ -133,13 +133,35 @@ class Moyasar_Callback {
                 $message = $api_error;
                 $payment = array( 'message' => $message );
             } else {
-                // Determine status from API response, NOT GET param for security    
-                $status = isset( $payment['status'] ) ? $payment['status'] : $status;
-                
-                // Update payment ID in order
-                $order->set_transaction_id( $payment_id );
-                $order->update_meta_data( '_moyasar_payment_id', $payment_id );
-                $order->save();
+                $verified = Moyasar_Helper::verify_payment_for_order( $order, $payment );
+
+                $payment_status = isset( $payment['status'] ) ? (string) $payment['status'] : '';
+
+                if ( is_wp_error( $verified ) && 'moyasar_payment_unverified' === $verified->get_error_code() ) {
+                    Moyasar_Helper::log( 'Callback: Payment ' . $payment_id . ' could not be verified for Order #' . $order_id . ': ' . $verified->get_error_message(), 'error' );
+
+                    if ( 'paid' === $payment_status || 'authorized' === $payment_status ) {
+                        $redirect_url = $this->get_return_url( $order );
+                        if ( 'modal' === $mode ) {
+                            echo '<script data-cfasync="false">window.parent.moyasarComplete("' . esc_url_raw( $redirect_url ) . '");</script>';
+                            exit;
+                        }
+                        wp_redirect( $redirect_url );
+                        exit;
+                    }
+
+                    $status = 'failed';
+                } elseif ( is_wp_error( $verified ) ) {
+                    Moyasar_Helper::reject_payment_for_order( $order, $payment, $verified, 'callback' );
+                    $status  = 'rejected';
+                    $message = __( 'We could not verify this payment for your order. Please contact the store.', 'moyasar-payments' );
+                } else {
+                    $status = '' !== $payment_status ? $payment_status : 'failed';
+
+                    $order->set_transaction_id( $payment_id );
+                    $order->update_meta_data( '_moyasar_payment_id', $payment_id );
+                    $order->save();
+                }
             }
         } else {
             // Require Payment ID for validation    
@@ -173,7 +195,9 @@ class Moyasar_Callback {
             // Reload to get the latest DB state — the webhook may have set the order
             // to 'processing' between our initial wc_get_order() call and here.
             $order = wc_get_order( $order_id );
-            Moyasar_Helper::handle_payment_failed( $order, $payment, 'callback' );
+            if ( 'rejected' !== $status ) {
+                Moyasar_Helper::handle_payment_failed( $order, $payment, 'callback' );
+            }
 
             if ( isset( WC()->session ) ) {
                 WC()->session->set( 'order_awaiting_payment', $order_id );

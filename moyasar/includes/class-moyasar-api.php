@@ -109,7 +109,11 @@ class Moyasar_API {
     }
 
     public static function fetch_payment( $id, $api_key = null ) {
-        return self::request( 'payments/' . $id, 'GET', array(), $api_key );
+        return self::request( 'payments/' . rawurlencode( (string) $id ), 'GET', array(), $api_key );
+    }
+
+    public static function fetch_coupon( $id, $api_key = null ) {
+        return self::request( 'coupons/' . rawurlencode( (string) $id ), 'GET', array(), $api_key );
     }
 
     /**
@@ -160,7 +164,7 @@ class Moyasar_API {
     }
 
     public static function fetch_invoice( $id, $api_key = null ) {
-        return self::request( 'invoices/' . $id, 'GET', array(), $api_key );
+        return self::request( 'invoices/' . rawurlencode( (string) $id ), 'GET', array(), $api_key );
     }
 
     public static function verify_webhook( $id, $code, $api_key = null ) {
